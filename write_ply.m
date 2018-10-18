@@ -51,11 +51,11 @@ if szt(2) ~= 3
 end
 
 if nargin == 2
-    write_ply_pc(outname,coords);
+    write_ply_pc(outname,coords,szc);
 elseif nargin < 2
     error('You must supply at least coordinates to write a point cloud');
 elseif nargin == 3
-    write_ply_mesh(outname,coords,tris);
+    write_ply_mesh(outname,coords,tris,szc,szt);
 else
     error('You must supply at least the file name and coordinates');
 end
@@ -64,7 +64,7 @@ end
 
 %% Write the file if faces are supplied
 
-function [] = write_ply_mesh(outname,coords,tris)
+function [] = write_ply_mesh(outname,coords,tris,szc,szt)
 % The header
 fid = fopen(outname,'wt');
 fprintf(fid,['ply\n' ...
@@ -88,7 +88,7 @@ dlmwrite(outname,faces,'delimiter',' ','-append');
 
 end % of write_ply_mesh function
 
-function [] = write_ply_pc(outname,coords)
+function [] = write_ply_pc(outname,coords,szc)
 
 fid = fopen(outname,'wt');
 fprintf(fid,['ply\n' ...
@@ -97,7 +97,7 @@ fprintf(fid,['ply\n' ...
              'property float x\n' ...
              'property float y\n' ...
              'property float z\n' ...
-             'end_header\n'],np);
+             'end_header\n'],szc);
 fclose(fid);
 
 dlmwrite(outname,coords,'delimiter',' ','-append');
