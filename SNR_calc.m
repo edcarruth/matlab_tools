@@ -21,20 +21,24 @@ if ~ismatrix(im)
     error('Please supply a 2D grayscale image');
 end
 
-% Display image and prompt user to draw regions of signal and background
+% Display image
 im = double(im);
 fig = figure;
 set(fig,'Units','normalized')
 set(fig,'Position',[0 0 1 1])
 imagesc(im); colormap gray; axis image;
-he1 = imellipse;
+% Prompt user to draw signal region
 waitfor(msgbox('Draw a region covering an area of "signal".'));
+he1 = imellipse;
 waitfor(msgbox('Ready to continue?'));
 sigmsk = he1.createMask;
-he2 = imellipse;
+% Prompt user to draw background region
 waitfor(msgbox('Draw a region covering an area of "background".'));
+he2 = imellipse;
 waitfor(msgbox('Ready to continue?'));
 bkgmsk = he2.createMask;
+% Close the figure
+close;
 
 % Calculate SNR
 sig = im(sigmsk);
