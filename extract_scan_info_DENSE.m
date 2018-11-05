@@ -1,5 +1,5 @@
-function [] = extract_scan_info_DENSE(SequenceInfo,imid,saveyn,filename)
-%function [] = extract_scan_info_DENSE(SequenceInfo)
+function [info] = extract_scan_info_DENSE(SequenceInfo,imid,saveyn,filename)
+%function [info] = extract_scan_info_DENSE(SequenceInfo)
 % This function extracts pertinent information from the sequence info for
 % DENSE, useful for our DENSE optimization study.
 % 
@@ -9,9 +9,11 @@ function [] = extract_scan_info_DENSE(SequenceInfo,imid,saveyn,filename)
 % Parameters to grab
 % StudyDate,StudyTime,PatientID,ProtocolName,StudyInstanceUID,
 % 1st series number, PixelSpacing(1),PixelSpacing(2),FlipAngle,
-% PixelBandwidth?,TE,TR,Slice Thickness
+% PixelBandwidth?,TE,TR,Slice Thickness,
 
-params = cell(1,13);
+% % max principal strain, min principal strain
+
+info = cell(1,14);
 
 if nargin < 4
     filename = 'seq_params.csv';
@@ -25,24 +27,27 @@ if nargin < 2
     imid = 1;
 end
 
-params{1} = SequenceInfo(imid).StudyDate;
-params{2} = SequenceInfo(imid).StudyTime;
-params{3} = SequenceInfo(imid).PatientID;
-params{4} = SequenceInfo(imid).ProtocolName;
-params{5} = SequenceInfo(imid).StudyInstanceUID;
-params{6} = SequenceInfo(imid).SeriesNumber;
-params{7} = SequenceInfo(imid).PixelSpacing(1);
-params{8} = SequenceInfo(imid).PixelSpacing(2);
-params{9} = SequenceInfo(imid).FlipAngle;
-params{10} = SequenceInfo(imid).PixelBandwidth;
-params{11} = SequenceInfo(imid).EchoTime;
-params{12} = SequenceInfo(imid).RepetitionTime;
-params{13} = SequenceInfo(imid).SliceThickness;
+info{1} = SequenceInfo(imid).StudyDate;
+info{2} = SequenceInfo(imid).StudyTime;
+info{3} = SequenceInfo(imid).PatientID;
+info{4} = SequenceInfo(imid).ProtocolName;
+info{5} = SequenceInfo(imid).StudyInstanceUID;
+info{6} = SequenceInfo(imid).SeriesNumber;
+info{7} = SequenceInfo(imid).PixelSpacing(1);
+info{8} = SequenceInfo(imid).PixelSpacing(2);
+info{9} = SequenceInfo(imid).FlipAngle;
+info{10} = SequenceInfo(imid).PixelBandwidth;
+info{11} = SequenceInfo(imid).EchoTime;
+info{12} = SequenceInfo(imid).RepetitionTime;
+info{13} = SequenceInfo(imid).SliceThickness;
+info{14} = SequenceInfo(imid).NumberInSequence;
+% params{15} = max(max(StrainInfo.p1));
+% params{16} = min(min(StrainInfo.p1));
 
-disp(params);
+disp(info);
 
 if saveyn
-    csvwrite(filename,params);
+    csvwrite(filename,info);
 end
 
 end % of function
