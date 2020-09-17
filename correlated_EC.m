@@ -30,7 +30,7 @@ y = y(:);
 % Compute
 x2 = [ones(size(x)),x];
 c = x2\y;
-xp = [min(x2) max(x2)];
+xp = [min(x) max(x)];
 yp = c(1) + c(2).*xp;
 [r,p] = corrcoef(x,y);
 r = r(2);
